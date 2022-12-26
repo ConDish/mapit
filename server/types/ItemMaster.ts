@@ -1,0 +1,15 @@
+export type ItemMaster = {
+    ItemCode: String,
+    Description: String,
+    Active: Boolean,
+    CustomerDescription: String,
+    SalesItem: Boolean,
+    StockItem: Boolean,
+    PurchasedItem: Boolean,
+    Barcode: String,
+    ManageItemBy: Number,
+    MinimumInventory: Number,
+    MaximumInventory: Number,
+    Remarks: String,
+    ImagePath: String,
+}
