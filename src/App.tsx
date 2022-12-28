@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./home";
-import Product from "./product";
+import EditProduct from "./product/EditProduct";
+import AddProduct from "./product/AddProduct";
+import { withTranslation } from "react-i18next";
 
 const router = createBrowserRouter([
   {
@@ -9,8 +10,12 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/:itemId",
-    element: <Product />,
+    path: "/:itemCode",
+    element: <EditProduct />,
+  },
+  {
+    path: "/create",
+    element: <AddProduct />,
   },
 ]);
 
@@ -18,4 +23,4 @@ function App() {
   return <RouterProvider router={router} />;
 }
 
-export default App;
+export default withTranslation()(App);

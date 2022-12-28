@@ -6,18 +6,17 @@ const port = 3001;
 
 const app = express();
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://127.0.0.1:5173', 'http://localhost:5173'];
+  const allowedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173"];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
   return next();
 });
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "200kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const config = {
@@ -44,6 +43,20 @@ app.get("/items", async (_, res) => {
   try {
     const pool = await sql.connect(config);
     const response = await pool.query("SELECT * FROM ItemMaster");
+    res.json({ data: response.recordsets[0], status: 1 });
+    pool.close();
+  } catch (error) {
+    res.json({ message: error, status: 0 });
+  }
+});
+
+app.get("/items/search/:codeDes", async (req, res) => {
+  try {
+    const { codeDes } = req.params;
+    const pool = await sql.connect(config);
+    const response = await pool.query(
+      `SELECT * FROM ItemMaster WHERE itemCode LIKE '%${codeDes}%' OR description LIKE '%${codeDes}%'`
+    );
     res.json({ data: response.recordsets[0], status: 1 });
     pool.close();
   } catch (error) {
@@ -93,6 +106,20 @@ app.post("/items", async (req, res) => {
   }
 });
 
+// Get Item By Code
+app.get("/items/:itemCode", async (req, res) => {
+  const { itemCode } = req.params;
+  try {
+    const pool = await sql.connect(config);
+    const response = await pool.query(
+      `SELECT * FROM ItemMaster WHERE itemCode = '${itemCode}'`
+    );
+    res.json({ data: response.recordsets[0] });
+  } catch (error) {
+    res.json({ message: error, status: 0 });
+  }
+});
+
 // Edit Item
 app.post("/items/:itemCode", async (req, res) => {
   const { itemCode } = req.params;
@@ -114,11 +141,11 @@ app.post("/items/:itemCode", async (req, res) => {
     const pool = await sql.connect(config);
     await pool.query(`UPDATE ItemMaster SET
       description ='${description}',
-      active = ${active},
+      active = ${active ? 1 : 0},
       customerDescription = '${customerDescription}',
-      salesItem = ${salesItem},
-      stockItem = ${stockItem},
-      purchasedItem = ${purchasedItem},
+      salesItem = ${salesItem ? 1 : 0},
+      stockItem = ${stockItem ? 1 : 0},
+      purchasedItem = ${purchasedItem ? 1 : 0},
       barcode = '${barcode}',
       manageItemBy = ${manageItemBy},
       minimumInventory = ${minimumInventory},
