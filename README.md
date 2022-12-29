@@ -1,9 +1,14 @@
 # Map IT
 
-## Usage
+## Usage Website
 
 - `yarn`
 - `yarn dev`
+
+## Usage Server
+- Go to `server` folder
+- `yarn`
+- `yarn start`
 
 ## Requirements
 - [Node.js](https://nodejs.org)
