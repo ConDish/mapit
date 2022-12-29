@@ -13,4 +13,4 @@ export const convertToBase64 = (file: File) => {
 };
 
 export const getLanguage = () =>
-  i18n.language || window.localStorage.i18nextLng;
+  i18n.language || window.localStorage.i18nextLng || 'en';

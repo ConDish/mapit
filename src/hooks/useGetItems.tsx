@@ -7,23 +7,25 @@ export function useGetItems() {
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const {
-          data: { data: items },
-        } = await axios("http://localhost:3001/items");
-        if (!items) {
-          setIsError(true);
-          return;
-        }
-        setItemMaster(items);
-      } catch (error) {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
+    refetch();
   }, []);
 
-  return { itemMaster, isLoading, isError };
+  const refetch = async () => {
+    try {
+      const {
+        data: { data: items },
+      } = await axios("http://localhost:3001/items");
+      if (!items) {
+        setIsError(true);
+        return;
+      }
+      setItemMaster(items);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { itemMaster, isLoading, isError, refetch };
 }

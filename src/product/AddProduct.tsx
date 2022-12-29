@@ -12,7 +12,9 @@ function AddProduct() {
   const [isError, setIsError] = useState<string>("");
   const navigate = useNavigate();
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (
+event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     try {
       const response = await axios("http://localhost:3001/items", {
@@ -29,7 +31,7 @@ function AddProduct() {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setItem((prev) => ({
       ...prev,
       [e.target.name]:
@@ -55,7 +57,7 @@ function AddProduct() {
           >
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('itemCode')}
+                {t("itemCode")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -66,18 +68,20 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('description')}
+                {t("description")}
               </label>
-              <input
+              <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 name="description"
-                type="text"
+                value={(item as ItemMaster)?.description}
+                rows={4}
+                cols={50}
                 onChange={onChange}
               />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('active')}
+                {t("active")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
@@ -97,18 +101,19 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('customerDescription')}
+                {t("customerDescription")}
               </label>
-              <input
+              <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 name="customerDescription"
-                type="text"
+                rows={4}
+                cols={50}
                 onChange={onChange}
               />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('salesItem')}
+                {t("salesItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
@@ -128,7 +133,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('stockItem')}
+                {t("stockItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
@@ -148,7 +153,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('purchasedItem')}
+                {t("purchasedItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
@@ -167,7 +172,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('barcode')}
+                {t("barcode")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -178,7 +183,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('manageItemBy')}
+                {t("manageItemBy")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -189,7 +194,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('minimumInventory')}
+                {t("minimumInventory")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -201,7 +206,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('maximumInventory')}
+                {t("maximumInventory")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -213,7 +218,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('remarks')}
+                {t("remarks")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -224,7 +229,7 @@ function AddProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('image')}
+                {t("image")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -243,7 +248,7 @@ function AddProduct() {
             </div>
             <div className="flex">
               <button className="bg-green-500 text-white p-1 w-full">
-                {t('addItem')}
+                {t("addItem")}
               </button>
             </div>
           </form>

@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 import Radio from "../components/Radio";
 import { convertToBase64 } from "../helpers";
 import axios from "axios";
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next";
 
 function EditProduct() {
   const { itemCode } = useParams();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { itemMaster, isLoading } = useGetItemByCode(itemCode ?? "");
   const [item, setItem] = useState<ItemMaster | {}>();
   const [isError, setIsError] = useState<string>("");
@@ -41,7 +41,9 @@ function EditProduct() {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setItem((prev) => ({
       ...prev,
       [e.target.name]:
@@ -68,6 +70,8 @@ function EditProduct() {
     }
   };
 
+  console.log(item);
+
   if (isLoading || !itemMaster) {
     return <div>Loading....</div>;
   }
@@ -79,7 +83,7 @@ function EditProduct() {
           to="/create"
           className="bg-green-500 text-white p-1 w-1/4 text-center"
         >
-          {t('createItem')}
+          {t("createItem")}
         </Link>
       </div>
       <div className="w-full bg-red-400">
@@ -90,11 +94,12 @@ function EditProduct() {
           <div className="bg-white shadow-md rounded p-8 pt-6 m-4">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('itemCode')}
+                {t("itemCode")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="itemCode"
+                name="itemCode"
+                disabled
                 type="text"
                 value={(item as ItemMaster)?.itemCode}
                 onChange={onChange}
@@ -102,25 +107,26 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('description')}
+                {t("description")}
               </label>
-              <input
+              <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="description"
-                type="text"
+                name="description"
                 value={(item as ItemMaster)?.description}
+                rows={4}
+                cols={50}
                 onChange={onChange}
               />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('active')}
+                {t("active")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
                   <Radio
                     name="active"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="1"
                     checked={(item as ItemMaster)?.active}
                   />
@@ -132,7 +138,7 @@ function EditProduct() {
                 <div className="flex items-center">
                   <Radio
                     name="active"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="0"
                     checked={!(item as ItemMaster)?.active}
                   />
@@ -144,25 +150,26 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('customerDescription')}
+                {t("customerDescription")}
               </label>
-              <input
+              <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="customerDescription"
-                type="text"
+                name="customerDescription"
+                rows={4}
+                cols={50}
                 value={(item as ItemMaster)?.customerDescription}
                 onChange={onChange}
               />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('salesItem')}
+                {t("salesItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
                   <Radio
                     name="salesItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="1"
                     checked={(item as ItemMaster)?.salesItem}
                   />
@@ -174,7 +181,7 @@ function EditProduct() {
                 <div className="flex items-center">
                   <Radio
                     name="salesItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="0"
                     checked={!(item as ItemMaster)?.salesItem}
                   />
@@ -186,13 +193,13 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('stockItem')}
+                {t("stockItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
                   <Radio
                     name="stockItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="1"
                     checked={(item as ItemMaster)?.stockItem}
                   />
@@ -204,7 +211,7 @@ function EditProduct() {
                 <div className="flex items-center">
                   <Radio
                     name="stockItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="0"
                     checked={!(item as ItemMaster)?.stockItem}
                   />
@@ -216,13 +223,13 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('purchasedItem')}
+                {t("purchasedItem")}
               </label>
               <div className="my-5">
                 <div className="flex items-center mb-4">
                   <Radio
                     name="purchasedItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="1"
                     checked={(item as ItemMaster)?.purchasedItem}
                   />
@@ -233,9 +240,9 @@ function EditProduct() {
                 <div className="flex items-center">
                   <Radio
                     name="purchasedItem"
-                    onChange={() => console.log("Changed!")}
+                    onChange={onChange}
                     value="0"
-                    checked={(item as ItemMaster)?.purchasedItem}
+                    checked={!(item as ItemMaster)?.purchasedItem}
                   />
                   <label className="text-sm font-medium text-gray-900 ml-2 block">
                     False
@@ -245,7 +252,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('barcode')}
+                {t("barcode")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -257,7 +264,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('manageItemBy')}
+                {t("manageItemBy")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -269,7 +276,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('minimumInventory')}
+                {t("minimumInventory")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -282,7 +289,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('maximumInventory')}
+                {t("maximumInventory")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -295,7 +302,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('remarks')}
+                {t("remarks")}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -307,7 +314,7 @@ function EditProduct() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                {t('image')}
+                {t("image")}
               </label>
               <img
                 src={(item as ItemMaster)?.imagePath}
@@ -334,10 +341,13 @@ function EditProduct() {
                 className="bg-red-500 text-white p-1 w-full"
                 onClick={() => onDelete((item as ItemMaster)?.itemCode)}
               >
-                {t('deleteItem')}
+                {t("deleteItem")}
               </button>
-              <button className="bg-blue-500 text-white p-1 w-full" onClick={onSubmit}>
-                {t('editItem')}
+              <button
+                className="bg-blue-500 text-white p-1 w-full"
+                onClick={onSubmit}
+              >
+                {t("editItem")}
               </button>
             </div>
           </div>
