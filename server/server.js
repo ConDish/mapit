@@ -57,7 +57,6 @@ app.get("/items/search/:codeDes", async (req, res) => {
     const response = await pool.query(
       `SELECT * FROM ItemMaster WHERE itemCode LIKE '%${codeDes}%' OR description LIKE '%${codeDes}%'`
     );
-    console.log(codeDes);
     res.json({ data: response.recordsets[0], status: 1 });
     pool.close();
   } catch (error) {
