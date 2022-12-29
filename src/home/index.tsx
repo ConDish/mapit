@@ -42,8 +42,12 @@ const Home = () => {
     localStorage.setItem("i18nextLng", value);
   };
 
-  if (isLoading || isError) {
+  if (isLoading) {
     return <h1>Loading....</h1>;
+  }
+
+  if(isError) {
+    return <h1>Error! :(</h1>
   }
 
   return (

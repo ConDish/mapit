@@ -12,9 +12,7 @@ function AddProduct() {
   const [isError, setIsError] = useState<string>("");
   const navigate = useNavigate();
 
-  const onSubmit = async (
-event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await axios("http://localhost:3001/items", {
@@ -31,7 +29,9 @@ event: React.FormEvent<HTMLFormElement>
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setItem((prev) => ({
       ...prev,
       [e.target.name]:

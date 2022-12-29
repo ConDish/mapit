@@ -70,8 +70,6 @@ function EditProduct() {
     }
   };
 
-  console.log(item);
-
   if (isLoading || !itemMaster) {
     return <div>Loading....</div>;
   }
